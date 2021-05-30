@@ -1,0 +1,6 @@
+S3 bucket
+objects: coco.names, yolov3.cfg, yolov3.weights, opencv-python.zip
+
+Lambda function configuration:
+Timeout: 1 min 0 seconds
+Memory: 10240 MB
