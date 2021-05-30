@@ -35,7 +35,7 @@
 }
 
 .urlInput {
-    width: 580px;
+    width: 525px;
 }
 
 .url {
@@ -44,7 +44,6 @@
     width: 100%;
 
     margin-top: 20px;
-    margin-bottom: 50px;
     background-color: deepgray;
     border-radius: 1px deepgray;
     box-sizing: border-box;
@@ -52,6 +51,8 @@
 
 .tagInput {
     width: 580px;
+    margin-top: 20px;
+
 }
 
 .addbutton {
@@ -60,7 +61,6 @@
 .addlist {
     font-size:20px;
     text-align:left;
-
 }
 
 .img {
@@ -72,6 +72,7 @@
 
 .previewComponent {
     text-align: center;
+    font-size: 20px;
 }
 
 .previewText {

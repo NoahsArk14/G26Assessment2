@@ -54,10 +54,9 @@ class ImageUpload extends React.Component {
                 <form onSubmit={(e)=>this._handleSubmit(e)}>
                 <input className="fileInput" type="file" onChange={(e)=>this._handleImageChange(e)} />
                 <button className="submitButton" type="submit" onClick={(e)=>this._handleSubmit(e)}>Upload</button>
+                <div>{this.state.status}</div>
                 </form>
-                <div>
-                    {this.state.status}
-                </div>
+
                 <div className="imgPreview">
                     {$imagePreview}
                 </div>
@@ -88,6 +87,9 @@ class Url extends React.Component {
             onChange={this.handleChange}
             value={this.state.text}
           />
+          <button>
+            Select
+          </button>
           <button>
             Delete
           </button>
@@ -127,7 +129,7 @@ class AddTag extends React.Component {
   render() {
     return (
       <div>
-        <TagList items={this.state.items} />
+
         <form onSubmit={this.handleSubmit}>
           <input
             className="tagInput"
@@ -140,6 +142,7 @@ class AddTag extends React.Component {
             Add
           </button>
         </form>
+        <TagList items={this.state.items} />
       </div>
     );
   }
@@ -242,8 +245,9 @@ const AuthStateApp  = () => {
         <div className="Welcome">Hello, Explorer</div>
         <SearchBox/ >
         <ImageUpload/>
-        <AddTag />
         <Url/>
+        <AddTag />
+
 
         <AmplifySignOut />
       </header>
