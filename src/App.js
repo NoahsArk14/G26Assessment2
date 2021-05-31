@@ -2,7 +2,6 @@ import React from 'react';
 import fetch from 'node-fetch';
 import './App.css';
 import Amplify, { Storage }from 'aws-amplify';
-//import {API} from 'aws-amplify'
 import {AmplifyAuthenticator, AmplifySignUp, AmplifySignOut} from '@aws-amplify/ui-react';
 import { AuthState, onAuthUIStateChange } from '@aws-amplify/ui-components';
 import awsconfig from './aws-exports';
@@ -80,26 +79,18 @@ class ImageUpload extends React.Component {
 class Url extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { items: [], text: '', imagePreviewUrl: '' };
+    this.state = { items: [], text: '', Url: '' ,tag: '', status: ''};
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   render() {
-        let {imagePreviewUrl} = this.state;
-        let $imagePreview = null;
-        if (imagePreviewUrl) {
-            $imagePreview = (< img className="img" src={imagePreviewUrl} />);
-        } else {
-            $imagePreview = (<div className="previewText">Please input ImageURL for Preview</div>);
-        }
     return (
 
         <div className="url">
             <form onSubmit={this.handleSubmit}>
               <input
                 className='urlInput'
-                id="url"
                 placeholder="Input image url"
                 onChange={this.handleChange}
                 value={this.state.text}
@@ -107,16 +98,28 @@ class Url extends React.Component {
               <button>
                 Select
               </button>
-              <button>
+              <button onClick={(e)=>this.deleteImage(e)}>
                 Delete
               </button>
-            </form>
-            <div> {$imagePreview}</div>
-        </div>
+             </form>
+            <div> {this.state.Url} </div>
+
+          </div>
     );
   }
 
-  handleChange(e) {
+  deleteImage(e) {
+    e.preventDefault();
+    // TODO: change apiName,path,myInit (maybe response)
+    /*API.post(apiName, path, myInit).then(response => {
+        this.setState({status: response.status})
+    })
+  .catch(error => {
+    console.log(error.response);
+    });*/
+  }
+
+  handleChange(e,type) {
     this.setState({ text: e.target.value });
   }
 
@@ -134,15 +137,14 @@ class Url extends React.Component {
       text: ''
     }));
 
-    this.setState({imagePreviewUrl: Storage.get({level: 'private'})});
-    }
+    this.setState({Url: this.state.text});
+  }
 }
-
 
 class AddTag extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { items: [], text: '' };
+    this.state = { items: [], text: '', tag: ''};
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
@@ -185,6 +187,7 @@ class AddTag extends React.Component {
       items: state.items.concat(newItem),
       text: ''
     }));
+
   }
 }
 
@@ -258,6 +261,7 @@ class SearchBox extends React.Component {
 }
 
 
+
 const AuthStateApp  = () => {
     const [authState, setAuthState] = React.useState();
     const [user, setUser] = React.useState();
@@ -277,7 +281,6 @@ const AuthStateApp  = () => {
         <ImageUpload/>
         <SearchBox/>
         <Url/>
-        <AddTag />
 
 
         <AmplifySignOut />

@@ -26,7 +26,7 @@
 }
 
 .SearchBox {
-    text-align: right;
+    text-align: center;
     width: 100%;
     background-color: deepgray;
     border-radius: 1px deepgray;
@@ -41,12 +41,6 @@
 .url {
     text-align: center;
     font-size: 20px;
-    width: 100%;
-
-    margin-top: 20px;
-    background-color: deepgray;
-    border-radius: 1px deepgray;
-    box-sizing: border-box;
 }
 
 .tagInput {
@@ -70,10 +64,12 @@
     object-fit: contain;
 }
 
+
 .previewComponent {
     text-align: center;
     font-size: 20px;
 }
+
 
 .previewText {
     align-items: center;
