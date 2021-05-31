@@ -1,9 +1,12 @@
 import React from 'react';
+import fetch from 'node-fetch';
 import './App.css';
 import Amplify, { Storage }from 'aws-amplify';
+//import {API} from 'aws-amplify'
 import {AmplifyAuthenticator, AmplifySignUp, AmplifySignOut} from '@aws-amplify/ui-react';
 import { AuthState, onAuthUIStateChange } from '@aws-amplify/ui-components';
 import awsconfig from './aws-exports';
+
 
 Amplify.configure(awsconfig);
 
@@ -11,12 +14,13 @@ class ImageUpload extends React.Component {
     constructor(props) {
         super(props);
         this.state = {file: '',imagePreviewUrl: '',status: ''};
-
     }
+
+
     _handleSubmit(e) {
         e.preventDefault();
         this.setState({status: 'Uploaded'});
-        // TODO: do something with -> this.state.file
+
         Storage.put(`${Date.now()}.jpeg`, this.state.file, {
             level: 'private',
             contentType: 'image/jpeg'
@@ -39,6 +43,11 @@ class ImageUpload extends React.Component {
 
         reader.readAsDataURL(file)
     }
+//3.3
+    searchImage(e) {
+        e.preventDefault();
+        this.setState({tag: ''});
+    }
 
     render() {
         let {imagePreviewUrl} = this.state;
@@ -54,9 +63,9 @@ class ImageUpload extends React.Component {
                 <form onSubmit={(e)=>this._handleSubmit(e)}>
                 <input className="fileInput" type="file" onChange={(e)=>this._handleImageChange(e)} />
                 <button className="submitButton" type="submit" onClick={(e)=>this._handleSubmit(e)}>Upload</button>
+                <button onClick={(e)=>this.searchImage(e)}>SearchImage</button>
                 <div>{this.state.status}</div>
                 </form>
-
                 <div className="imgPreview">
                     {$imagePreview}
                 </div>
@@ -71,30 +80,39 @@ class ImageUpload extends React.Component {
 class Url extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { items: [], text: '' };
+    this.state = { items: [], text: '', imagePreviewUrl: '' };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   render() {
+        let {imagePreviewUrl} = this.state;
+        let $imagePreview = null;
+        if (imagePreviewUrl) {
+            $imagePreview = (< img className="img" src={imagePreviewUrl} />);
+        } else {
+            $imagePreview = (<div className="previewText">Please input ImageURL for Preview</div>);
+        }
     return (
-      <div className="url">
-        <form onSubmit={this.handleSubmit}>
-          <input
-            className='urlInput'
-            id="url"
-            placeholder="Input image url"
-            onChange={this.handleChange}
-            value={this.state.text}
-          />
-          <button>
-            Select
-          </button>
-          <button>
-            Delete
-          </button>
-        </form>
-      </div>
+
+        <div className="url">
+            <form onSubmit={this.handleSubmit}>
+              <input
+                className='urlInput'
+                id="url"
+                placeholder="Input image url"
+                onChange={this.handleChange}
+                value={this.state.text}
+              />
+              <button>
+                Select
+              </button>
+              <button>
+                Delete
+              </button>
+            </form>
+            <div> {$imagePreview}</div>
+        </div>
     );
   }
 
@@ -115,8 +133,11 @@ class Url extends React.Component {
       items: state.items.concat(newItem),
       text: ''
     }));
-  }
+
+    this.setState({imagePreviewUrl: Storage.get({level: 'private'})});
+    }
 }
+
 
 class AddTag extends React.Component {
   constructor(props) {
@@ -184,7 +205,7 @@ class TagList extends React.Component {
 class SearchBox extends React.Component {
     constructor(props) {
     super(props);
-    this.state = { items: [], text: '' };
+    this.state = { items: [], text: '' ,Url: ''};
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
@@ -203,6 +224,7 @@ class SearchBox extends React.Component {
                Search
           </button>
         </form>
+        <div> {this.state.Url} </div>
       </div>
     );
   }
@@ -224,7 +246,15 @@ class SearchBox extends React.Component {
       items: state.items.concat(newItem),
       text: ''
     }));
+    // TODO: change apiName,path,myInit (maybe response)
+    /*API.get(apiName, path, myInit).then(response => {
+        this.setState({Url: response.links})
+    })
+  .catch(error => {
+    console.log(error.response);
+    });*/
   }
+
 }
 
 
@@ -243,8 +273,9 @@ const AuthStateApp  = () => {
     <div className="App">
       <header className="App-header">
         <div className="Welcome">Hello, Explorer</div>
-        <SearchBox/ >
+
         <ImageUpload/>
+        <SearchBox/>
         <Url/>
         <AddTag />
 
