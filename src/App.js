@@ -12,7 +12,7 @@ Amplify.configure(awsconfig);
 class ImageUpload extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {file: '',imagePreviewUrl: '',status: ''};
+        this.state = {file: '',imagePreviewUrl: '',status: '',resultUrl: ''};
     }
 
 
@@ -45,7 +45,13 @@ class ImageUpload extends React.Component {
 //3.3
     searchImage(e) {
         e.preventDefault();
-        this.setState({tag: ''});
+        // TODO: change apiName,path,myInit (maybe response)
+        /*API.get(apiName, path, myInit).then(response => {
+            this.setState({resultUrl: response.status})
+        })
+      .catch(error => {
+        console.log(error.response);
+        });*/
     }
 
     render() {
@@ -64,6 +70,7 @@ class ImageUpload extends React.Component {
                 <button className="submitButton" type="submit" onClick={(e)=>this._handleSubmit(e)}>Upload</button>
                 <button onClick={(e)=>this.searchImage(e)}>SearchImage</button>
                 <div>{this.state.status}</div>
+                <div>{this.state.resultUrl}</div>
                 </form>
                 <div className="imgPreview">
                     {$imagePreview}
@@ -74,135 +81,6 @@ class ImageUpload extends React.Component {
 
         )
     }
-}
-
-class Url extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { items: [], text: '', Url: '' ,tag: '', status: ''};
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
-
-  render() {
-    return (
-
-        <div className="url">
-            <form onSubmit={this.handleSubmit}>
-              <input
-                className='urlInput'
-                placeholder="Input image url"
-                onChange={this.handleChange}
-                value={this.state.text}
-              />
-              <button>
-                Select
-              </button>
-              <button onClick={(e)=>this.deleteImage(e)}>
-                Delete
-              </button>
-             </form>
-            <div> {this.state.Url} </div>
-
-          </div>
-    );
-  }
-
-  deleteImage(e) {
-    e.preventDefault();
-    // TODO: change apiName,path,myInit (maybe response)
-    /*API.post(apiName, path, myInit).then(response => {
-        this.setState({status: response.status})
-    })
-  .catch(error => {
-    console.log(error.response);
-    });*/
-  }
-
-  handleChange(e,type) {
-    this.setState({ text: e.target.value });
-  }
-
-  handleSubmit(e) {
-    e.preventDefault();
-    if (this.state.text.length === 0) {
-      return;
-    }
-    const newItem = {
-      text: this.state.text,
-      id: Date.now()
-    };
-    this.setState(state => ({
-      items: state.items.concat(newItem),
-      text: ''
-    }));
-
-    this.setState({Url: this.state.text});
-  }
-}
-
-class AddTag extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { items: [], text: '', tag: ''};
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
-
-  render() {
-    return (
-      <div>
-
-        <form onSubmit={this.handleSubmit}>
-          <input
-            className="tagInput"
-            id="new-tag"
-            placeholder="What tag needs to be added?"
-            onChange={this.handleChange}
-            value={this.state.text}
-          />
-          <button className="addbutton">
-            Add
-          </button>
-        </form>
-        <TagList items={this.state.items} />
-      </div>
-    );
-  }
-
-  handleChange(e) {
-    this.setState({ text: e.target.value });
-  }
-
-  handleSubmit(e) {
-    e.preventDefault();
-    if (this.state.text.length === 0) {
-      return;
-    }
-    const newItem = {
-      text: this.state.text,
-      id: Date.now()
-    };
-    this.setState(state => ({
-      items: state.items.concat(newItem),
-      text: ''
-    }));
-
-  }
-}
-
-class TagList extends React.Component {
-  render() {
-    return (
-      <ul>
-        {this.props.items.map(item => (
-          <li
-            className="addlist"
-            key={item.id}>{item.text}</li>
-        ))}
-      </ul>
-    );
-  }
 }
 
 class SearchBox extends React.Component {
@@ -260,6 +138,148 @@ class SearchBox extends React.Component {
 
 }
 
+class Url extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { items: [], text: '', Url: '' ,tag: '', status: ''};
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  render() {
+    return (
+
+        <div className="url">
+            <form onSubmit={this.handleSubmit}>
+              <input
+                className='urlInput'
+                placeholder="Input image url"
+                onChange={this.handleChange}
+                value={this.state.text}
+              />
+              <button>
+                Select
+              </button>
+              <button onClick={(e)=>this.deleteImage(e)}>
+                Delete
+              </button>
+             </form>
+            <div> {this.state.Url} </div>
+            <div> {this.state.status} </div>
+            <AddTag Url={this.state.Url} />
+        </div>
+
+    );
+  }
+
+  deleteImage(e) {
+    e.preventDefault();
+    // TODO: change apiName,path,myInit (maybe response)
+    /*API.delete(apiName, path, myInit).then(response => {
+        this.setState({status: response.status})
+    })
+  .catch(error => {
+    console.log(error.response);
+    });*/
+  }
+
+  handleChange(e,type) {
+    this.setState({ text: e.target.value });
+  }
+
+  handleSubmit(e) {
+    e.preventDefault();
+    if (this.state.text.length === 0) {
+      return;
+    }
+    const newItem = {
+      text: this.state.text,
+      id: Date.now()
+    };
+    this.setState(state => ({
+      items: state.items.concat(newItem),
+      text: ''
+    }));
+
+    this.setState({Url: this.state.text});
+  }
+}
+
+class AddTag extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { items: [], text: '', tag: '', Url: ''};
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  render() {
+    return (
+      <div>
+
+        <form onSubmit={this.handleSubmit}>
+          <input
+            className="tagInput"
+            id="new-tag"
+            placeholder="What tag needs to be added?"
+            onChange={this.handleChange}
+            value={this.state.text}
+          />
+          <button className="addbutton">
+            Add
+          </button>
+        </form>
+        <div> {this.state.Url} </div>
+        <TagList items={this.state.items} />
+      </div>
+    );
+  }
+
+  handleChange(e) {
+    this.setState({ text: e.target.value });
+  }
+
+  handleSubmit(e) {
+    e.preventDefault();
+    if (this.state.text.length === 0) {
+      return;
+    }
+    this.setState({Url: this.props.Url});
+    this.setState({tag: this.state.text});
+    const newItem = {
+      text: this.state.text,
+      id: Date.now()
+    };
+    this.setState(state => ({
+      items: state.items.concat(newItem),
+      text: ''
+    }));
+    // TODO: change apiName,path,myInit (maybe response)
+    //this.state.Url 图片url
+    //this.state.tag 输入的需要添加的tag
+    /*API.post(apiName, path, myInit).then(response => {
+        this.setState({status: response.status})
+    })
+  .catch(error => {
+    console.log(error.response);
+    });*/
+  }
+}
+
+class TagList extends React.Component {
+  render() {
+    return (
+      <ul>
+        {this.props.items.map(item => (
+          <li
+            className="addlist"
+            key={item.id}>{item.text}</li>
+        ))}
+      </ul>
+    );
+  }
+}
+
 
 
 const AuthStateApp  = () => {
@@ -281,8 +301,6 @@ const AuthStateApp  = () => {
         <ImageUpload/>
         <SearchBox/>
         <Url/>
-
-
         <AmplifySignOut />
       </header>
     </div>
@@ -308,8 +326,6 @@ const AuthStateApp  = () => {
     </AmplifyAuthenticator>
   );
 
-
 }
-
 
 export default AuthStateApp;
