@@ -14,6 +14,12 @@
     "categories": {
       "auth": {
         "amplifywebapp7f459679": {}
+      },
+      "function": {
+        "imageApi": {
+          "deploymentBucketName": "amplify-amplifywebapp-dev-35517-deployment",
+          "s3Key": "amplify-builds/imageApi-2b4b5665693456613833-build.zip"
+        }
       }
     }
   }

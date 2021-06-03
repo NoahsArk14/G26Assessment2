@@ -1,7 +1,8 @@
 import React from 'react';
 import fetch from 'node-fetch';
 import './App.css';
-import Amplify, { Storage }from 'aws-amplify';
+import Amplify, { Storage, API }from 'aws-amplify';
+//import {API} from 'aws-amplify';
 import {AmplifyAuthenticator, AmplifySignUp, AmplifySignOut} from '@aws-amplify/ui-react';
 import { AuthState, onAuthUIStateChange } from '@aws-amplify/ui-components';
 import awsconfig from './aws-exports';
