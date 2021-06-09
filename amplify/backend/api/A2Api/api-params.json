@@ -1,0 +1,42 @@
+{
+  "paths": [
+    {
+      "name": "/image",
+      "lambdaFunction": "imageApi",
+      "privacy": {
+        "private": true,
+        "auth": [
+          "/POST",
+          "/GET",
+          "/PUT",
+          "/PATCH",
+          "/DELETE"
+        ]
+      },
+      "policyResourceName": "/image"
+    }
+  ],
+  "resourceName": "A2Api",
+  "apiName": "A2Api",
+  "functionArns": [
+    {
+      "lambdaFunction": "imageApi"
+    }
+  ],
+  "privacy": {
+    "auth": 1,
+    "unauth": 0,
+    "authRoleName": "amplify-amplifywebapp-dev-35517-authRole",
+    "unAuthRoleName": "amplify-amplifywebapp-dev-35517-unauthRole"
+  },
+  "dependsOn": [
+    {
+      "category": "function",
+      "resourceName": "imageApi",
+      "attributes": [
+        "Name",
+        "Arn"
+      ]
+    }
+  ]
+}

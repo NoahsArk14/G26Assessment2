@@ -9,6 +9,7 @@ import awsconfig from './aws-exports';
 
 
 Amplify.configure(awsconfig);
+const apiName = "api1";
 
 class ImageUpload extends React.Component {
     constructor(props) {
@@ -22,6 +23,7 @@ class ImageUpload extends React.Component {
         this.setState({status: 'Uploaded'});
 
         Storage.put(`${Date.now()}.jpeg`, this.state.file, {
+            bucket: "amplifywebappebbe4e606317487fb5d53ef1745dcc2f35517-dev",
             level: 'private',
             contentType: 'image/jpeg'
         });
@@ -43,16 +45,22 @@ class ImageUpload extends React.Component {
 
         reader.readAsDataURL(file)
     }
-//3.3
+    
+//3.2
     searchImage(e) {
         e.preventDefault();
         // TODO: change apiName,path,myInit (maybe response)
-        /*API.get(apiName, path, myInit).then(response => {
+        var path = "/items2";
+        const myInit = {
+          body: {"image": this.state.file},
+          headers: {'Content-Type': 'application/json'}
+        };
+        API.put(apiName, path, myInit).then(response => {
             this.setState({resultUrl: response.status})
         })
       .catch(error => {
         console.log(error.response);
-        });*/
+        });
     }
 
     render() {
@@ -70,7 +78,7 @@ class ImageUpload extends React.Component {
                 <input className="fileInput" type="file" onChange={(e)=>this._handleImageChange(e)} />
                 <button className="submitButton" type="submit" onClick={(e)=>this._handleSubmit(e)}>Upload</button>
                 <button onClick={(e)=>this.searchImage(e)}>SearchImage</button>
-                <div>{this.state.status}</div>
+                <div>{this.state.status}</div> 
                 <div>{this.state.resultUrl}</div>
                 </form>
                 <div className="imgPreview">
@@ -87,7 +95,7 @@ class ImageUpload extends React.Component {
 class SearchBox extends React.Component {
     constructor(props) {
     super(props);
-    this.state = { items: [], text: '' ,Url: ''};
+    this.state = { items: [], text: '' ,Url: []};
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
@@ -119,22 +127,29 @@ class SearchBox extends React.Component {
     e.preventDefault();
     if (this.state.text.length === 0) {
       return;
-    }
-    const newItem = {
-      text: this.state.text,
-      id: Date.now()
     };
-    this.setState(state => ({
-      items: state.items.concat(newItem),
-      text: ''
-    }));
+    var tags = [];
+    tags = this.state.text.split(" ");
+    // const newItem = {
+    //   text: this.state.text,
+    //   id: Date.now()
+    // };
+    // this.setState(state => ({
+    //   items: state.items.concat(newItem),
+    //   text: ''
+    // }));
     // TODO: change apiName,path,myInit (maybe response)
-    /*API.get(apiName, path, myInit).then(response => {
-        this.setState({Url: response.links})
+    var path = "/items"
+    const myInit = {
+      body: {"tags": tags},
+      headers: {"Content-Type": "application/json"}
+    };
+    API.post(apiName, path, myInit).then(response => {
+      console.log(response)
     })
   .catch(error => {
     console.log(error.response);
-    });*/
+    });
   }
 
 }
@@ -176,12 +191,17 @@ class Url extends React.Component {
   deleteImage(e) {
     e.preventDefault();
     // TODO: change apiName,path,myInit (maybe response)
-    /*API.delete(apiName, path, myInit).then(response => {
+    var path = "/items4";
+    const myInit = {
+      body: {"url": this.state.Url},
+      headers: {'Content-Type': 'application/json'}
+    };
+    API.del(apiName, path, myInit).then(response => {
         this.setState({status: response.status})
     })
   .catch(error => {
     console.log(error.response);
-    });*/
+    });
   }
 
   handleChange(e,type) {
@@ -256,14 +276,19 @@ class AddTag extends React.Component {
       text: ''
     }));
     // TODO: change apiName,path,myInit (maybe response)
-    //this.state.Url 图片url
-    //this.state.tag 输入的需要添加的tag
-    /*API.post(apiName, path, myInit).then(response => {
+    var tags = [];
+    tags = this.state.text.split(" ");
+    var path = "/items3";
+    const myInit = {
+      body: {"url": this.state.Url, "tags": tags},
+      headers: {'Content-Type': 'application/json'}
+    }
+    API.put(apiName, path, myInit).then(response => {
         this.setState({status: response.status})
     })
   .catch(error => {
     console.log(error.response);
-    });*/
+    });
   }
 }
 

@@ -19,6 +19,22 @@
         "imageApi": {
           "deploymentBucketName": "amplify-amplifywebapp-dev-35517-deployment",
           "s3Key": "amplify-builds/imageApi-2b4b5665693456613833-build.zip"
+        },
+        "lam2": {
+          "deploymentBucketName": "amplify-amplifywebapp-dev-35517-deployment",
+          "s3Key": "amplify-builds/lam2-5331734f444f3838335a-build.zip"
+        },
+        "lam4": {
+          "deploymentBucketName": "amplify-amplifywebapp-dev-35517-deployment",
+          "s3Key": "amplify-builds/lam4-44326d433672776b6173-build.zip"
+        },
+        "lam3": {
+          "deploymentBucketName": "amplify-amplifywebapp-dev-35517-deployment",
+          "s3Key": "amplify-builds/lam3-4335534c4366354f476c-build.zip"
+        },
+        "lam1": {
+          "deploymentBucketName": "amplify-amplifywebapp-dev-35517-deployment",
+          "s3Key": "amplify-builds/lam1-484f58377348352f3353-build.zip"
         }
       }
     }

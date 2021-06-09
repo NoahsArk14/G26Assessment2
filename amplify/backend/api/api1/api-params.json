@@ -1,0 +1,120 @@
+{
+  "paths": [
+    {
+      "name": "/items",
+      "lambdaFunction": "lam1",
+      "privacy": {
+        "private": true,
+        "auth": [
+          "/POST",
+          "/GET",
+          "/PUT",
+          "/PATCH",
+          "/DELETE"
+        ]
+      },
+      "policyResourceName": "/items"
+    },
+    {
+      "name": "/items2",
+      "lambdaFunction": "lam2",
+      "privacy": {
+        "private": true,
+        "auth": [
+          "/POST",
+          "/GET",
+          "/PUT",
+          "/PATCH",
+          "/DELETE"
+        ]
+      },
+      "policyResourceName": "/items2"
+    },
+    {
+      "name": "/items3",
+      "lambdaFunction": "lam3",
+      "privacy": {
+        "private": true,
+        "auth": [
+          "/POST",
+          "/GET",
+          "/PUT",
+          "/PATCH",
+          "/DELETE"
+        ]
+      },
+      "policyResourceName": "/items3"
+    },
+    {
+      "name": "/items4",
+      "lambdaFunction": "lam4",
+      "privacy": {
+        "private": true,
+        "auth": [
+          "/POST",
+          "/GET",
+          "/PUT",
+          "/PATCH",
+          "/DELETE"
+        ]
+      },
+      "policyResourceName": "/items4"
+    }
+  ],
+  "resourceName": "api1",
+  "apiName": "api1",
+  "functionArns": [
+    {
+      "lambdaFunction": "lam1"
+    },
+    {
+      "lambdaFunction": "lam2"
+    },
+    {
+      "lambdaFunction": "lam3"
+    },
+    {
+      "lambdaFunction": "lam4"
+    }
+  ],
+  "privacy": {
+    "auth": 4,
+    "unauth": 0,
+    "authRoleName": "amplify-amplifywebapp-dev-35517-authRole",
+    "unAuthRoleName": "amplify-amplifywebapp-dev-35517-unauthRole"
+  },
+  "dependsOn": [
+    {
+      "category": "function",
+      "resourceName": "lam1",
+      "attributes": [
+        "Name",
+        "Arn"
+      ]
+    },
+    {
+      "category": "function",
+      "resourceName": "lam2",
+      "attributes": [
+        "Name",
+        "Arn"
+      ]
+    },
+    {
+      "category": "function",
+      "resourceName": "lam3",
+      "attributes": [
+        "Name",
+        "Arn"
+      ]
+    },
+    {
+      "category": "function",
+      "resourceName": "lam4",
+      "attributes": [
+        "Name",
+        "Arn"
+      ]
+    }
+  ]
+}
